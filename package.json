@@ -7,17 +7,12 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.ts",
     "lint-fix": "eslint . --ext .js,.ts --fix",
-    "dev": "nodemon src/index.ts"
-  },
-  "lint-staged": {
-    "*.{js,ts,json,css,scss,md}": [
-      "npm run lint-fix",
-      "git add"
-    ]
+    "dev": "nodemon src/index.ts",
+    "prepare": "husky"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm test && lint-staged"
     }
   },
   "jest": {
