@@ -51,19 +51,14 @@ export const UserController = {
                 message: error.details[0].message,
             });
         }
+
         try {
             const user = await UserService.createUser(value);
-            if (user.success === false) {
-                return res.status(400).json({
-                    success: false,
-                    statusCode: 400,
-                    message: user.message,
-                });
-            }
-            return res.status(201).json({
-                success: true,
-                statusCode: 201,
-                data: user,
+            return res.status(user.statusCode).json({
+                success: user.success,
+                statusCode: user.statusCode,
+                message: user.message,
+                data: user.data,
             });
         } catch (error) {
             next(error);

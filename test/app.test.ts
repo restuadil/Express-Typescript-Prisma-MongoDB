@@ -1,6 +1,7 @@
 import supertest from "supertest";
 import { app } from '../src/index';
 import { UserTest } from "./test.util";
+import { logger } from '../src/utils/logger';
 
 describe('GET /users', () => {
     beforeEach(async () => {
@@ -13,6 +14,7 @@ describe('GET /users', () => {
     it('should respond with status 200 and return an array of users', async () => {
 
         const response = await supertest(app).get('/users');
+        logger.info(response.body);
         expect(response.status).toBe(200);
         expect(response.body).toEqual({
             success: true,
@@ -33,8 +35,19 @@ describe('GET /users/:id', () => {
     afterEach(async () => {
         await UserTest.delete();
     });
+    it('should respond with status 404 ', async () => {
+        const response = await supertest(app).get('/users/65f47ae077fd2c504dc18cf5');
+        logger.info(response.body);
+        expect(response.status).toBe(404);
+        expect(response.body).toEqual({
+            success: false,
+            statusCode: 404,
+            message: "User not found",
+        });
+    })
     it('should respond with status 200 and return an user', async () => {
         const response = await supertest(app).get('/users/65f47ae077fd2c504dc18cf4');
+        logger.info(response.body);
         expect(response.status).toBe(200);
         expect(response.body).toEqual({
             success: true,
@@ -66,6 +79,7 @@ describe('POST /users', () => {
                 first_name: "Restu",
                 last_name: "Adil",
             });
+        logger.info(response.body);
         expect(response.status).toBe(400);
         expect(response.body).toEqual({
             success: false,
@@ -83,6 +97,7 @@ describe('POST /users', () => {
                 first_name: "",
                 last_name: "",
             });
+        logger.info(response.body);
         expect(response.status).toBe(400);
         expect(response.body).toEqual({
             success: false,
@@ -101,21 +116,18 @@ describe('POST /users', () => {
         const response = await supertest(app)
             .post("/users")
             .send(userData);
-
+        logger.info(response.body);
         expect(response.status).toBe(201);
         expect(response.body).toEqual({
             "success": true,
             "statusCode": 201,
-            "data": {
-                "success": true,
-                "newUser": {
-                    "id": expect.any(String),
-                    "email": "test@example.com",
-                    "username": "restuadil",
-                    "password": "password123",
-                    "first_name": "New",
-                    "last_name": "User"
-                }
+            "message": "User created successfully",
+            data: {
+                "id": expect.any(String),
+                "email": "test@example.com",
+                "username": "restuadil",
+                "first_name": "New",
+                "last_name": "User"
             }
         })
     });

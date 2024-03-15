@@ -31,15 +31,24 @@ export const UserService = {
       });
 
       if (existingUser) {
-        return { success: false, message: "Username or email already exists" };
+        return { success: false, statusCode: 400, message: "Username or email already exists" };
       }
-      const newUser = await prisma.user.create({
-        data: { ...data },
-      });
-      return { success: true, newUser };
+      const newUser = await prisma.user.create({ data });
+      return {
+        success: true,
+        statusCode: 201,
+        message: "User created successfully",
+        data: {
+          id: newUser.id,
+          username: newUser.username,
+          email: newUser.email,
+          first_name: newUser.first_name,
+          last_name: newUser.last_name
+        }
+      };
     } catch (error) {
       console.error("Error creating user:", error);
-      return { success: false, message: "Failed to create user" };
+      return { success: false, statusCode: 500, message: "Failed to create user" };
     }
   }
 
