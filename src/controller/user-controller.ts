@@ -1,5 +1,6 @@
 import { Response, Request, NextFunction } from "express";
 import { UserService } from "../service/user-service";
+import { createUserValidation } from "../validation/user-validation";
 
 export const UserController = {
     GETALLUSERS: async (req: Request, res: Response, next: NextFunction) => {
@@ -23,10 +24,12 @@ export const UserController = {
         try {
             const userById = await UserService.getUserById(req.params.id);
             if (userById) {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const { password, ...userData } = userById;
                 return res.status(200).json({
                     success: true,
                     statusCode: 200,
-                    data: userById,
+                    data: userData,
                 });
             } else {
                 return res.status(404).json({
@@ -35,6 +38,33 @@ export const UserController = {
                     message: "User not found",
                 });
             }
+        } catch (error) {
+            next(error);
+        }
+    },
+    CREATEUSER: async (req: Request, res: Response, next: NextFunction) => {
+        const { error, value } = createUserValidation(req.body);
+        if (error) {
+            return res.status(400).json({
+                success: false,
+                statusCode: 400,
+                message: error.details[0].message,
+            });
+        }
+        try {
+            const user = await UserService.createUser(value);
+            if (user.success === false) {
+                return res.status(400).json({
+                    success: false,
+                    statusCode: 400,
+                    message: user.message,
+                });
+            }
+            return res.status(201).json({
+                success: true,
+                statusCode: 201,
+                data: user,
+            });
         } catch (error) {
             next(error);
         }

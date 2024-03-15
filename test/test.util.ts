@@ -5,7 +5,7 @@ export const UserTest = {
     async delete() {
         await prisma.user.deleteMany({
             where: {
-                username: "test",
+                username: "restuadil",
             },
         });
     },
@@ -13,12 +13,12 @@ export const UserTest = {
     async create() {
         await prisma.user.create({
             data: {
-                id: "65f3f26eba36021e78eec38f",
-                username: "test",
-                email: "test",
-                password: "test",
-                first_name: "test",
-                last_name: "test",
+                id: "65f47ae077fd2c504dc18cf4",
+                username: "restuadil",
+                email: "restuadil09@gmail.com",
+                password: "12345",
+                first_name: "restu",
+                last_name: "adil",
             },
         });
     }

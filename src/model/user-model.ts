@@ -6,3 +6,12 @@ export type UserResponse = {
   first_name: string | null;
   last_name: string | null;
 };
+
+
+export type UserRequest = {
+  email: string;
+  username: string;
+  password: string;
+  first_name: string | null;
+  last_name: string | null;
+}
