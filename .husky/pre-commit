@@ -1,2 +1,2 @@
 chmod +x .husky/pre-commit
-npx lint-staged && npm run build
+npx lint-staged && npm run test
