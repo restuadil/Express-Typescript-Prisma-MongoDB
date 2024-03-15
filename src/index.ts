@@ -1,14 +1,17 @@
+import express, { Request, Response } from "express";
+import { UserRouter } from "./route/user-route";
+import { errorMiddleware } from "./middleware/error-middleware";
+export const app = express();
 
-import express, { NextFunction, Request, Response } from "express"
-import { prisma } from "./db/prisma"
-export const app = express()
-const port = 3000
 
-app.get('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const data = await prisma.user.findMany()
-    res.send(data)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get('/', (req: Request, res: Response) => {
+    res.send('Hello World!')
 })
-
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+app.use(UserRouter)
+app.use(errorMiddleware)
+// import { logger } from "./utils/logger";
+// const port = 3000;
+// app.listen(port, () => logger.info(`Server is listening on port ${port}`))

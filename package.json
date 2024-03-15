@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "lint": "eslint src ",
+    "format": "prettier --write src",
+    "build": "tsc",
     "start": "nodemon src/index.ts"
   },
   "jest": {

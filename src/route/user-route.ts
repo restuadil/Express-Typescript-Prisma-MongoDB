@@ -1,0 +1,7 @@
+import { Router } from "express";
+import { UserController } from "../controller/user-controller";
+
+export const UserRouter = Router();
+
+UserRouter.get('/users', UserController.GETALLUSERS)
+UserRouter.get('/users/:id', UserController.GETUSERBYID)

@@ -1,10 +1,8 @@
-import { User } from "@prisma/client";
-
 export type UserResponse = {
-    id: string,
-    email: string,
-    username: string,
-    password: string
-    first_name?: string,
-    last_name?: string
-}
+  id: string;
+  email: string;
+  username: string;
+  password: string | null;
+  first_name: string | null;
+  last_name: string | null;
+};

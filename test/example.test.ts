@@ -1,9 +1,10 @@
-// example.test.ts
+import supertest from "supertest";
+import { app } from '../src/index';
 
-function sum(a: number, b: number): number {
-    return a + b;
-}
-
-test('adds 1 + 2 to equal 3', () => {
-    expect(sum(1, 2)).toBe(3);
+describe('GET /', () => {
+    it('responds with 200', async () => {
+        const response = await supertest(app).get('/');
+        expect(response.status).toBe(200);
+        expect(response.text).toBe('Hello World!');
+    });
 });
