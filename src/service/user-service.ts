@@ -31,13 +31,10 @@ export const UserService = {
       });
 
       if (existingUser) {
-        return { success: false, statusCode: 400, message: "Username or email already exists" };
+        return null;
       }
       const newUser = await prisma.user.create({ data });
       return {
-        success: true,
-        statusCode: 201,
-        message: "User created successfully",
         data: {
           id: newUser.id,
           username: newUser.username,
@@ -50,6 +47,15 @@ export const UserService = {
       console.error("Error creating user:", error);
       return { success: false, statusCode: 500, message: "Failed to create user" };
     }
+  },
+  deleteUser: async (id: string) => {
+    try {
+      const user = await prisma.user.delete({
+        where: { id: id },
+      });
+      return user;
+    } catch (error) {
+      return null;
+    }
   }
-
 };

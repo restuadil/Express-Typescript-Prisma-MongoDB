@@ -54,12 +54,40 @@ export const UserController = {
 
         try {
             const user = await UserService.createUser(value);
-            return res.status(user.statusCode).json({
-                success: user.success,
-                statusCode: user.statusCode,
-                message: user.message,
-                data: user.data,
-            });
+            if (user) {
+                return res.status(201).json({
+                    success: true,
+                    statusCode: 201,
+                    message: "User created successfully",
+                    data: user.data,
+                });
+            } else {
+                return res.status(400).json({
+                    success: false,
+                    statusCode: 400,
+                    message: "Username or email already exists",
+                });
+            }
+        } catch (error) {
+            next(error);
+        }
+    },
+    DELETEUSER: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const deleteUser = await UserService.deleteUser(req.params.id);
+            if (deleteUser) {
+                return res.status(200).json({
+                    success: true,
+                    statusCode: 200,
+                    message: "User deleted successfully",
+                });
+            } else {
+                return res.status(404).json({
+                    success: false,
+                    statusCode: 404,
+                    message: "User not found",
+                });
+            }
         } catch (error) {
             next(error);
         }

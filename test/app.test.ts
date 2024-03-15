@@ -132,3 +132,27 @@ describe('POST /users', () => {
         })
     });
 })
+
+describe('DELETE /users/:id', () => {
+    it('should successfully delete user', async () => {
+        await UserTest.create();
+        const response = await supertest(app).delete('/users/65f47ae077fd2c504dc18cf4');
+        logger.info(response.body);
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+            success: true,
+            statusCode: 200,
+            message: "User deleted successfully",
+        });
+    })
+    it('should return 404 if user not found', async () => {
+        const response = await supertest(app).delete('/users/65f47ae077fd2c504dc18cf5');
+        logger.info(response.body);
+        expect(response.status).toBe(404);
+        expect(response.body).toEqual({
+            success: false,
+            statusCode: 404,
+            message: "User not found",
+        });
+    })
+})
