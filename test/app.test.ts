@@ -19,11 +19,17 @@ describe('GET /users', () => {
         expect(response.body).toEqual({
             success: true,
             statusCode: 200,
-            data: [{
-                email: "restuadil09@gmail.com",
-                id: "65f47ae077fd2c504dc18cf4",
-                username: "restuadil",
-            }],
+            data: [
+                {
+                    email: "restuadil09@gmail.com",
+                    id: "65f47ae077fd2c504dc18cf4",
+                    username: "restuadil",
+                },
+                {
+                    email: "test0@gmail.com",
+                    id: "65f47ae077fd2c504dc18cf5",
+                    username: "test123",
+                }],
         });
     });
 });
@@ -36,7 +42,7 @@ describe('GET /users/:id', () => {
         await UserTest.delete();
     });
     it('should respond with status 404 ', async () => {
-        const response = await supertest(app).get('/users/65f47ae077fd2c504dc18cf5');
+        const response = await supertest(app).get('/users/wrongId');
         logger.info(response.body);
         expect(response.status).toBe(404);
         expect(response.body).toEqual({
@@ -58,6 +64,8 @@ describe('GET /users/:id', () => {
                 username: "restuadil",
                 first_name: "restu",
                 last_name: "adil",
+                updated_at: expect.any(String),
+                created_at: expect.any(String),
             },
         });
     });
@@ -134,8 +142,13 @@ describe('POST /users', () => {
 })
 
 describe('DELETE /users/:id', () => {
-    it('should successfully delete user', async () => {
+    beforeEach(async () => {
         await UserTest.create();
+    })
+    afterEach(async () => {
+        await UserTest.delete();
+    })
+    it('should successfully delete user', async () => {
         const response = await supertest(app).delete('/users/65f47ae077fd2c504dc18cf4');
         logger.info(response.body);
         expect(response.status).toBe(200);
@@ -146,13 +159,80 @@ describe('DELETE /users/:id', () => {
         });
     })
     it('should return 404 if user not found', async () => {
-        const response = await supertest(app).delete('/users/65f47ae077fd2c504dc18cf5');
+        const response = await supertest(app).delete('/users/wrongId');
         logger.info(response.body);
         expect(response.status).toBe(404);
         expect(response.body).toEqual({
             success: false,
             statusCode: 404,
             message: "User not found",
+        });
+    })
+})
+
+describe('PUT /users/:id', () => {
+    beforeEach(async () => {
+        await UserTest.create();
+    })
+    afterEach(async () => {
+        await UserTest.delete();
+    })
+    it('should successfully update user', async () => {
+        const response = await supertest(app).put('/users/65f47ae077fd2c504dc18cf4').send({
+            email: "test@example.com",
+            username: "restuadil",
+            password: "password123",
+            first_name: "New",
+            last_name: "User",
+        });
+        logger.info(response.body);
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+            success: true,
+            statusCode: 200,
+            message: "User updated successfully",
+            data: {
+                id: expect.any(String),
+                email: "test@example.com",
+                username: "restuadil",
+                password: "password123",
+                first_name: "New",
+                last_name: "User",
+                created_at: expect.any(String),
+                updated_at: expect.any(String),
+            }
+        });
+    })
+    it('should return 404 if user not found', async () => {
+        const response = await supertest(app).put('/users/wrongId').send({
+            email: "test@example.com",
+            username: "restuadil",
+            password: "password123",
+            first_name: "New",
+            last_name: "User",
+        });
+        logger.info(response.body);
+        expect(response.status).toBe(404);
+        expect(response.body).toEqual({
+            success: false,
+            statusCode: 404,
+            message: "Something went wrong",
+        });
+    })
+    it('should return 404 if username or email already exists', async () => {
+        const response = await supertest(app).put('/users/65f47ae077fd2c504dc18cf4').send({
+            email: "test@example.com",
+            username: "test123",
+            password: "password123",
+            first_name: "New",
+            last_name: "User",
+        });
+        logger.info(response.body);
+        expect(response.status).toBe(404);
+        expect(response.body).toEqual({
+            success: false,
+            statusCode: 404,
+            message: "Something went wrong",
         });
     })
 })
