@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from "express";
 import { UserService } from "../service/user-service";
-import { createUserValidation, updateUserValidation } from "../validation/user-validation";
+import { updateUserValidation } from "../validation/user-validation";
 
 export const UserController = {
     GETALLUSERS: async (req: Request, res: Response, next: NextFunction) => {
@@ -42,36 +42,6 @@ export const UserController = {
             next(error);
         }
     },
-    CREATEUSER: async (req: Request, res: Response, next: NextFunction) => {
-        const { error, value } = createUserValidation(req.body);
-        if (error) {
-            return res.status(400).json({
-                success: false,
-                statusCode: 400,
-                message: error.details[0].message,
-            });
-        }
-
-        try {
-            const user = await UserService.createUser(value);
-            if (user) {
-                return res.status(201).json({
-                    success: true,
-                    statusCode: 201,
-                    message: "User created successfully",
-                    data: user.data,
-                });
-            } else {
-                return res.status(400).json({
-                    success: false,
-                    statusCode: 400,
-                    message: "Username or email already exists",
-                });
-            }
-        } catch (error) {
-            next(error);
-        }
-    },
     DELETEUSER: async (req: Request, res: Response, next: NextFunction) => {
         try {
             const deleteUser = await UserService.deleteUser(req.params.id);
@@ -92,7 +62,6 @@ export const UserController = {
             next(error);
         }
     },
-
     UPDATEUSER: async (req: Request, res: Response, next: NextFunction) => {
         const { error, value } = updateUserValidation(req.body);
         if (error) {

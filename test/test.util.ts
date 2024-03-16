@@ -5,7 +5,7 @@ export const UserTest = {
     async delete() {
         await prisma.user.deleteMany({
             where: {
-                username: { in: ["restuadil", "test123"] }
+                username: { in: ["restuadil", "test123", "randomdata"] }
             },
         });
     },
