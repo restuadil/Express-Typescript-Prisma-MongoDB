@@ -5,7 +5,7 @@ export const UserTest = {
     async delete() {
         await prisma.user.deleteMany({
             where: {
-                username: { in: ["restuadil", "test123", "randomdata"] }
+                username: { in: ["testuser", "restuadil", "updatedusername"] }
             },
         });
     },
@@ -15,23 +15,25 @@ export const UserTest = {
             data: [
                 {
                     id: "65f47ae077fd2c504dc18cf4",
-                    username: "restuadil",
-                    email: "restuadil09@gmail.com",
-                    password: "12345",
-                    first_name: "restu",
-                    last_name: "adil",
+                    username: "testuser",
+                    email: "testemail@gmail.com",
+                    password: "testpassword",
+                    role: "USER",
+                    first_name: "testfirst",
+                    last_name: "testlast",
                     created_at: new Date(),
-                    updated_at: new Date(),
+                    updated_at: new Date()
                 },
                 {
                     id: "65f47ae077fd2c504dc18cf5",
-                    username: "test123",
-                    email: "test0@gmail.com",
-                    password: "12345",
-                    first_name: "test",
-                    last_name: "test",
+                    username: "restuadil",
+                    email: "restuadil@gmail.com",
+                    password: "restuadil",
+                    role: "USER",
+                    first_name: "testfirst",
+                    last_name: "testlast",
                     created_at: new Date(),
-                    updated_at: new Date(),
+                    updated_at: new Date()
                 }
             ]
         });

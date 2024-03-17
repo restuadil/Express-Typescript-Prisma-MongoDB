@@ -16,9 +16,9 @@ export const createUserValidation = (data: UserResponse) => {
 
 export const updateUserValidation = (data: UserResponse) => {
   const schema = Joi.object({
-    username: Joi.string().min(5).required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().min(5).required(),
+    username: Joi.string().min(5),
+    email: Joi.string().email(),
+    password: Joi.string().min(5),
     first_name: Joi.string().optional(),
     last_name: Joi.string().optional(),
   });

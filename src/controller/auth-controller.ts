@@ -10,9 +10,9 @@ export const AuthController = {
     REGISTER: async (req: Request, res: Response, next: NextFunction) => {
         const { error, value } = createUserValidation(req.body);
         if (error) {
-            return res.status(400).json({
+            return res.status(422).json({
                 success: false,
-                statusCode: 400,
+                statusCode: 422,
                 message: error.details[0].message,
             });
         }

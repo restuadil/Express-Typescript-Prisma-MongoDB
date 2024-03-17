@@ -64,7 +64,9 @@ export const UserService = {
           last_name: data.last_name || userFromDB.last_name,
         },
       });
-
+      if (!updatedUser) {
+        return null;
+      }
       return updatedUser;
     } catch (error) {
       console.error("Error updating user:", error);

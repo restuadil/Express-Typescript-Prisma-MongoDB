@@ -73,10 +73,7 @@ export const UserController = {
             });
         }
         try {
-            const updateUser = await UserService.updateUser(
-                req.params.id,
-                value
-            );
+            const updateUser = await UserService.updateUser(req.params.id, value);
             if (updateUser) {
                 return res.status(200).json({
                     success: true,

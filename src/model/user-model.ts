@@ -17,7 +17,7 @@ export type UserRequest = {
   email: string;
   username: string;
   password: string;
-  role: string;
+  role: string | null;
   first_name: string | null;
   last_name: string | null;
 }
