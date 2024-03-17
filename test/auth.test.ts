@@ -31,7 +31,13 @@ describe("POST /api/auth/register", () => {
                 "email": "testemail@gmail.com",
                 "role": "USER",
                 "first_name": "testfirst",
-                "last_name": "testlast"
+                "last_name": "testlast",
+                "address": {
+                    "province": null,
+                    "city": null,
+                    "street": null,
+                    "postal_code": null
+                }
             },
         })
     })

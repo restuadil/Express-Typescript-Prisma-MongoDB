@@ -7,6 +7,12 @@ export const createUserValidation = (data: UserResponse) => {
     email: Joi.string().email().required(),
     password: Joi.string().min(5).required(),
     role: Joi.string().valid("USER", "ADMIN").default("USER"),
+    address: Joi.object({
+      province: Joi.string().optional().trim(),
+      city: Joi.string().trim().optional(),
+      street: Joi.string().trim().optional(),
+      postal_code: Joi.string().trim().optional(),
+    }).optional(),
     first_name: Joi.string().optional().trim(),
     last_name: Joi.string().optional().trim(),
   });

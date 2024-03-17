@@ -4,7 +4,7 @@ export type UserResponse = {
   id: string;
   email: string;
   username: string;
-  password: string | null;
+  password: string;
   role: $Enums.Role;
   first_name: string | null;
   last_name: string | null;
@@ -20,4 +20,10 @@ export type UserRequest = {
   role: string | null;
   first_name: string | null;
   last_name: string | null;
+  address?: {
+    province: string | null;
+    city: string | null;
+    street: string | null;
+    postal_code: string | null;
+  }
 }

@@ -21,6 +21,12 @@ export const UserTest = {
                     role: "USER",
                     first_name: "testfirst",
                     last_name: "testlast",
+                    address: {
+                        province: "testProvince",
+                        city: "testCity",
+                        street: "testStreet",
+                        postal_code: "testPostalCode"
+                    },
                     created_at: new Date(),
                     updated_at: new Date()
                 },
@@ -32,6 +38,12 @@ export const UserTest = {
                     role: "USER",
                     first_name: "testfirst",
                     last_name: "testlast",
+                    address: {
+                        province: "testProvince",
+                        city: "testCity",
+                        street: "testStreet",
+                        postal_code: "testPostalCode"
+                    },
                     created_at: new Date(),
                     updated_at: new Date()
                 }

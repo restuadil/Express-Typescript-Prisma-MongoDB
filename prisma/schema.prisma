@@ -20,10 +20,10 @@ model User {
   password   String
   first_name String?
   last_name  String?
+  address    Address?
   role       Role     @default(USER)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  // Address    Address[]
 
   @@map("users")
 }
@@ -31,6 +31,13 @@ model User {
 enum Role {
   USER
   ADMIN
+}
+
+type Address {
+  province    String?
+  city        String?
+  street      String?
+  postal_code String?
 }
 
 model Product {

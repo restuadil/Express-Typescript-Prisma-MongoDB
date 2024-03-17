@@ -14,7 +14,6 @@ export const AuthService = {
                     ],
                 },
             });
-
             if (existingUser) {
                 return null;
             }
@@ -26,7 +25,13 @@ export const AuthService = {
                     password: hashedPassword,
                     role: data.role as Role,
                     first_name: data.first_name,
-                    last_name: data.last_name
+                    last_name: data.last_name,
+                    address: {
+                        province: data.address?.province,
+                        city: data.address?.city,
+                        street: data.address?.street,
+                        postal_code: data.address?.postal_code
+                    }
                 }
             });
             return {
@@ -36,7 +41,8 @@ export const AuthService = {
                     email: newUser.email,
                     role: newUser.role,
                     first_name: newUser.first_name,
-                    last_name: newUser.last_name
+                    last_name: newUser.last_name,
+                    address: newUser.address
                 }
             };
         } catch (error) {

@@ -24,25 +24,36 @@ export const UserController = {
     GETUSERBYID: async (req: Request, res: Response, next: NextFunction) => {
         try {
             const userById = await UserService.getUserById(req.params.id);
-            if (userById) {
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                const { password, ...userData } = userById;
-                return res.status(200).json({
-                    success: true,
-                    statusCode: 200,
-                    data: userData,
-                });
-            } else {
+            if (!userById) {
                 return res.status(404).json({
                     success: false,
                     statusCode: 404,
                     message: "User not found",
                 });
             }
+
+            const responseData = {
+                id: userById.id,
+                email: userById.email,
+                username: userById.username,
+                role: userById.role,
+                first_name: userById.first_name,
+                last_name: userById.last_name,
+                address: userById.address,
+                created_at: userById.created_at,
+                updated_at: userById.updated_at,
+            };
+
+            return res.status(200).json({
+                success: true,
+                statusCode: 200,
+                data: responseData,
+            });
         } catch (error) {
             next(error);
         }
     },
+
     DELETEUSER: async (req: Request, res: Response, next: NextFunction) => {
         try {
             const deleteUser = await UserService.deleteUser(req.params.id);
