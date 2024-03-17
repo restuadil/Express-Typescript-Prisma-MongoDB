@@ -2,7 +2,7 @@ import supertest from "supertest";
 import { app } from '../src/index';
 import { UserTest } from "./test.util";
 import { logger } from '../src/utils/logger';
-
+// !! NEXT SEPERATE TEST WITHOUT ERRORS!!
 describe('GET /api/users', () => {
     beforeEach(async () => {
         await UserTest.create();
