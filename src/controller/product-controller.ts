@@ -3,18 +3,34 @@ import { ProductService } from "../service/product-service";
 import { createProductValidation } from "../validation/product-validation";
 
 export const ProductController = {
-    GETALLPRODUCTS: async (req: Request, res: Response, next: NextFunction) => {
+    GETPRODUCT: async (req: Request, res: Response, next: NextFunction) => {
+        const { params: { id } } = req
+        const { query } = req
         try {
-            const data = await ProductService.getAllProducts();
-            const products = data.map(product => ({
-                id: product.id,
-                name: product.name
-            }))
-            return res.status(200).json({
-                success: true,
-                statusCode: 200,
-                data: products
-            })
+            if (id) {
+                const data = await ProductService.getProductById(id);
+                if (data) {
+                    return res.status(200).json({
+                        success: true,
+                        statusCode: 200,
+                        data: data
+                    })
+                } else {
+                    return res.status(404).json({
+                        success: false,
+                        statusCode: 404,
+                        message: "Product not found"
+                    })
+                }
+            } else {
+                const data = await ProductService.getAllProducts(query);
+                return res.status(200).json({
+                    success: true,
+                    statusCode: 200,
+                    pagination: data?.pagination,
+                    data: data?.data,
+                })
+            }
         } catch (error) {
             next(error)
         }

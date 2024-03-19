@@ -25,6 +25,7 @@ export const updateUserValidation = (data: UserResponse) => {
     username: Joi.string().min(5),
     email: Joi.string().email(),
     password: Joi.string().min(5),
+    role: Joi.string().valid("USER", "ADMIN"),
     first_name: Joi.string().optional(),
     last_name: Joi.string().optional(),
   });
