@@ -154,6 +154,12 @@ describe("GET /api/users", () => {
         expect(response.body).toEqual({
             success: true,
             statusCode: 200,
+            pagination: {
+                current_page: expect.any(Number),
+                limit: expect.any(Number),
+                total_data: expect.any(Number),
+                total_page: expect.any(Number),
+            },
             data: expect.any(Array),
         })
     })
