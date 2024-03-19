@@ -3,57 +3,39 @@ import { UserService } from "../service/user-service";
 import { updateUserValidation } from "../validation/user-validation";
 
 export const UserController = {
-    GETALLUSERS: async (req: Request, res: Response, next: NextFunction) => {
+    GETUSER: async (req: Request, res: Response, next: NextFunction) => {
+        const { params: { id } } = req
+        const { query } = req
         try {
-            const data = await UserService.getAllUsers();
-            const users = data.map(user => ({
-                id: user.id,
-                email: user.email,
-                username: user.username,
-                role: user.role,
-            }));
-            return res.status(200).json({
-                success: true,
-                statusCode: 200,
-                data: users,
-            });
-        } catch (error) {
-            next(error);
-        }
-    },
-    GETUSERBYID: async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const userById = await UserService.getUserById(req.params.id);
-            if (!userById) {
-                return res.status(404).json({
-                    success: false,
-                    statusCode: 404,
-                    message: "User not found",
+            if (id) {
+                const user = await UserService.getUserById(req.params.id);
+                if (user) {
+                    return res.status(200).json({
+                        success: true,
+                        statusCode: 200,
+                        data: user,
+                    });
+                } else {
+                    return res.status(404).json({
+                        success: false,
+                        statusCode: 404,
+                        message: "User not found",
+                    });
+                }
+            } else {
+                const data = await UserService.getAllUsers(query);
+                return res.status(200).json({
+                    success: true,
+                    statusCode: 200,
+                    pagination: data?.pagination,
+                    data: data.data
                 });
             }
 
-            const responseData = {
-                id: userById.id,
-                email: userById.email,
-                username: userById.username,
-                role: userById.role,
-                first_name: userById.first_name,
-                last_name: userById.last_name,
-                address: userById.address,
-                created_at: userById.created_at,
-                updated_at: userById.updated_at,
-            };
-
-            return res.status(200).json({
-                success: true,
-                statusCode: 200,
-                data: responseData,
-            });
         } catch (error) {
             next(error);
         }
     },
-
     DELETEUSER: async (req: Request, res: Response, next: NextFunction) => {
         try {
             const deleteUser = await UserService.deleteUser(req.params.id);

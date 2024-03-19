@@ -19,6 +19,6 @@ app.get('/', (req: Request, res: Response) => {
 app.use("/api", UserRouter)
 app.use("/api", AuthRouter)
 app.use("/api", ProductRouter)
-// import { logger } from "./utils/logger";
-// const port = 3000;
-// app.listen(port, () => logger.info(`Server is listening on port ${port}`))
+import { logger } from "./utils/logger";
+const port = 3000;
+app.listen(port, () => logger.info(`Server is listening on port ${port}`))

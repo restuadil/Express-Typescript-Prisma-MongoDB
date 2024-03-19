@@ -41,10 +41,13 @@ type Address {
 }
 
 model Product {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  price       Int
+  category    String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
   @@map("products")
 }
