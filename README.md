@@ -31,7 +31,6 @@ Setelah Anda menginstal boilerplate, Anda dapat mulai mengembangkan aplikasi web
 - `npm run build`: Mengompilasi aplikasi menjadi JavaScript untuk produksi.
 - `npm run lint`: Menjalankan ESLint untuk memeriksa gaya kode Anda.
 - `npm run test`: Menjalankan tes unit menggunakan Jest.
-- `npm run format`: Memformat ulang kode Anda menggunakan Prettier.
 
 ## Kontribusi
 
