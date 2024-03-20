@@ -4,6 +4,16 @@ import { logger } from "../src/utils/logger"
 import { ProductTest } from "./test.util"
 
 describe("GET /api/products", () => {
+    let token: string;
+    beforeAll(async () => {
+        const response = await supertest(app)
+            .post("/api/auth/login")
+            .send({
+                email: "admin123@gmail.com",
+                password: "admin123",
+            })
+        token = response.body.data.accesToken
+    })
     afterEach(async () => {
         await ProductTest.delete()
     })
@@ -11,6 +21,7 @@ describe("GET /api/products", () => {
         await ProductTest.create()
         const response = await supertest(app)
             .get("/api/products")
+            .set("Authorization", `Bearer ${token}`)
         logger.info(response.body)
         expect(response.status).toBe(200)
         expect(response.body).toEqual({
