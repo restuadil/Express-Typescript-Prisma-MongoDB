@@ -37,15 +37,10 @@ export const ProductService = {
     getProductById: async (id: string): Promise<ProductResponse | null> => {
         try {
             const data = await prisma.product.findUnique({ where: { id: id, }, });
-            if (!data) {
-                return null;
-            }
             return data
         } catch (error) {
             logger.error(error)
             return null
-        } finally {
-            await prisma.$disconnect();
         }
     },
     createProduct: async (data: ProductRequest): Promise<ProductResponse | null> => {

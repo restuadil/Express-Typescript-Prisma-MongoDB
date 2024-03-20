@@ -29,6 +29,7 @@ export const ProductController = {
                 return res.status(200).json({
                     success: true,
                     statusCode: 200,
+                    message: "successfully retrieved products",
                     pagination: data?.pagination,
                     data: data?.data,
                 })
@@ -97,10 +98,10 @@ export const ProductController = {
                     data: data.id
                 })
             } else {
-                return res.status(500).json({
+                return res.status(404).json({
                     success: false,
-                    statusCode: 500,
-                    message: "Failed to delete product"
+                    statusCode: 404,
+                    message: "Product not found"
                 })
             }
         } catch (error) {

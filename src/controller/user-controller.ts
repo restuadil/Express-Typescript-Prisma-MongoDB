@@ -8,7 +8,7 @@ export const UserController = {
         const { query } = req
         try {
             if (id) {
-                const user = await UserService.getUserById(req.params.id);
+                const user = await UserService.getUserById(id);
                 if (user) {
                     return res.status(200).json({
                         success: true,
