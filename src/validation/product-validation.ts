@@ -11,3 +11,14 @@ export const createProductValidation = (data: ProductRequest) => {
 
     return schema.validate(data);
 };
+
+export const updateProductValidation = (data: ProductRequest) => {
+    const schema = Joi.object({
+        name: Joi.string().min(5),
+        description: Joi.string().min(5),
+        price: Joi.number(),
+        category: Joi.string(),
+    });
+
+    return schema.validate(data);
+}

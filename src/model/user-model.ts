@@ -9,10 +9,11 @@ export type UserResponse = {
 
 
 export type UserRequest = {
+  id: string;
   email: string;
   username: string;
   password: string;
-  role: string | null;
+  role: $Enums.Role;
   first_name: string | null;
   last_name: string | null;
   address?: {

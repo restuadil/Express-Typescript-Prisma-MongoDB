@@ -53,7 +53,7 @@ export const UserService = {
       await prisma.$disconnect();
     }
   },
-  getUserById: async (id: string) => {
+  getUserById: async (id: string): Promise<UserResponse | null> => {
     try {
       const data = await prisma.user.findUnique({ where: { id: id, }, });
       return data;
@@ -61,7 +61,7 @@ export const UserService = {
       return null;
     }
   },
-  deleteUser: async (id: string) => {
+  deleteUser: async (id: string): Promise<UserResponse | null> => {
     try {
       const user = await prisma.user.delete({
         where: { id: id },
@@ -71,7 +71,7 @@ export const UserService = {
       return null;
     }
   },
-  updateUser: async (id: string, data: UserRequest) => {
+  updateUser: async (id: string, data: UserRequest): Promise<UserResponse | null> => {
     try {
       const existingUser = await prisma.user.findFirst({
         where: {

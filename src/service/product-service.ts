@@ -82,10 +82,12 @@ export const ProductService = {
     },
     updateProduct: async (id: string, data: ProductRequest): Promise<ProductResponse | null> => {
         try {
-            const productFromDb = await prisma.product.findFirst({ where: { OR: [{ id: id }, { name: data.name }] } });
-            if (!productFromDb || (productFromDb.id !== id && productFromDb.name === data.name)) return null;
+            const existingProduct = await prisma.product.findFirst({ where: { name: data.name } });
+            if (existingProduct && existingProduct.id !== id) return null;
+            const productFromDb = await prisma.product.findUnique({ where: { id: id } });
+            if (!productFromDb) return null;
 
-            const product = await prisma.product.update({
+            const updatedProduct = await prisma.product.update({
                 where: { id: id },
                 data: {
                     name: data.name || productFromDb.name,
@@ -94,12 +96,18 @@ export const ProductService = {
                     category: data.category || productFromDb.category
                 }
             });
-            return product
+
+            if (updatedProduct) {
+                return updatedProduct;
+            } else {
+                return null;
+            }
         } catch (error) {
-            logger.error(error)
-            return null
+            logger.error(error);
+            return null;
         } finally {
             await prisma.$disconnect();
         }
-    },
+    }
+    ,
 }
