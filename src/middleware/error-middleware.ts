@@ -1,8 +1,8 @@
-// import { Request, Response, } from "express";
-
-// export const errorMiddleware = ((err: Error, req: Request, res: Response,) => {
-//     return res.status(500).json({
-//         success: false,
-//         message: 'Terjadi kesalahan dalam server.',
-//     });
-// });
+import { Request, Response } from "express";
+export const errorMiddleware = (req: Request, res: Response) => {
+    res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: "Route not found"
+    });
+}

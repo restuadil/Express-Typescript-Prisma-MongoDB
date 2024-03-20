@@ -6,7 +6,7 @@ export const requireUser = async (req: Request, res: Response, next: NextFunctio
     if (user && user.role === "USER") {
         return next()
     }
-    return res.sendStatus(403)
+    return res.status(403).json({ success: false, statusCode: 401, message: "Unauthorized" })
 }
 
 export const requireAdmin = async (req: Request, res: Response, next: NextFunction) => {
@@ -14,7 +14,7 @@ export const requireAdmin = async (req: Request, res: Response, next: NextFuncti
     if (user && user.role === "ADMIN") {
         return next()
     }
-    return res.sendStatus(403)
+    return res.status(403).json({ success: false, statusCode: 401, message: "Unauthorized" })
 }
 
 export const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
@@ -22,5 +22,5 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
     if (user) {
         return next()
     }
-    return res.sendStatus(401)
+    return res.status(403).json({ success: false, statusCode: 401, message: "Unauthorized" })
 }
