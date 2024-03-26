@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { UserRouter } from "./route/user-route";
 import { AuthRouter } from "./route/auth-route";
 import { ProductRouter } from "./route/product-route";
@@ -6,9 +6,15 @@ import deserializedToken from "./middleware/deserializedToken";
 import { errorMiddleware } from "./middleware/error-middleware";
 import bodyParser from "body-parser";
 import { logMiddleware } from "./middleware/log-middleware";
+import { OrderRouter } from "./route/order-route";
+
 
 
 export const app = express();
+
+import { logger } from "./utils/logger";
+const port = 3000;
+app.listen(port, () => logger.info(`Server is listening on port ${port}`))
 
 // import { errorMiddleware } from "./middleware/error-middleware";
 // app.use(errorMiddleware)
@@ -27,12 +33,7 @@ app.use(deserializedToken)
 app.use("/api", UserRouter)
 app.use("/api", AuthRouter)
 app.use("/api", ProductRouter)
+app.use("/api", OrderRouter)
 app.use("*", errorMiddleware)
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello World!')
-})
 
-// import { logger } from "./utils/logger";
-// const port = 3000;
-// app.listen(port, () => logger.info(`Server is listening on port ${port}`))
